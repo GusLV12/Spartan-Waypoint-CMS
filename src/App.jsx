@@ -1,9 +1,9 @@
-import { Login } from "./Views/Login/Login"
+import { AppRoute } from "./router/router"
 
 export const App = () => {
   return (
     <>
-      <Login />
+      <AppRoute />
     </>
   )
 }
