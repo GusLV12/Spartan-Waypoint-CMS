@@ -1,3 +1,4 @@
+import { useForm, Controller } from "react-hook-form";
 import {
   Button,
   Card,
@@ -7,8 +8,33 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext"; // Asegúrate de que la ruta sea correcta
+
+const initialValues = {
+  email: "",
+  password: "",
+};
 
 export const Login = () => {
+  const navigate = useNavigate();
+  const { setUserEmail } = useAuth(); // Obtener la función para actualizar el correo electrónico
+
+  const { control, handleSubmit } = useForm({
+    defaultValues: initialValues,
+  });
+
+  const onSubmit = (data, e) => {
+    e.preventDefault();
+    console.log("Formulario enviado:", data);
+    if (data.email === "admin@admin.com" && data.password === "123") {
+      setUserEmail(data.email); // Guardar el correo electrónico en el contexto
+      navigate("/");
+    } else {
+      console.log("Credenciales incorrectas.");
+    }
+  };
+
   return (
     <Grid
       spacing={0}
@@ -20,7 +46,10 @@ export const Login = () => {
         padding: "0 16px",
       }}
     >
-      <Grid item className="flex w-full h-[150px] md:h-[300px] justify-center items-center">
+      <Grid
+        item
+        className="flex w-full h-[150px] md:h-[300px] justify-center items-center"
+      >
         <img
           src="assets/img/logo.png"
           alt="Spartan"
@@ -37,7 +66,7 @@ export const Login = () => {
         }}
       >
         <CardContent>
-          <form>
+          <form onSubmit={handleSubmit(onSubmit)}>
             <div className="grid w-full items-center gap-4">
               <div className="flex flex-col space-y-1.5">
                 <Typography
@@ -47,16 +76,22 @@ export const Login = () => {
                 >
                   Email / Número Tel.
                 </Typography>
-                <TextField
-                  id="email"
-                  type="email"
-                  label="Correo"
-                  required
-                  variant="filled"
-                  InputProps={{
-                    style: { backgroundColor: "white", color: "black" },
-                  }}
-                  fullWidth
+                <Controller
+                  name="email"
+                  control={control}
+                  render={({ field }) => (
+                    <TextField
+                      {...field}
+                      type="email"
+                      label="Correo"
+                      required
+                      variant="filled"
+                      InputProps={{
+                        style: { backgroundColor: "white", color: "black" },
+                      }}
+                      fullWidth
+                    />
+                  )}
                 />
               </div>
               <div className="flex flex-col space-y-1.5">
@@ -67,33 +102,40 @@ export const Login = () => {
                 >
                   Contraseña
                 </Typography>
-                <TextField
-                  id="password"
-                  type="password"
-                  required
-                  label="Contraseña"
-                  variant="filled"
-                  InputProps={{
-                    style: { backgroundColor: "white", color: "black" },
-                  }}
-                  fullWidth
+                <Controller
+                  name="password"
+                  control={control}
+                  render={({ field }) => (
+                    <TextField
+                      {...field}
+                      type="password"
+                      label="Contraseña"
+                      required
+                      variant="filled"
+                      InputProps={{
+                        style: { backgroundColor: "white", color: "black" },
+                      }}
+                      fullWidth
+                    />
+                  )}
                 />
               </div>
             </div>
+            <CardActions>
+              <Button
+                type="submit"
+                style={{
+                  backgroundColor: "#0569cd",
+                  color: "white",
+                }}
+                fullWidth
+                variant="contained"
+              >
+                Entrar
+              </Button>
+            </CardActions>
           </form>
         </CardContent>
-        <CardActions>
-          <Button
-            style={{
-              backgroundColor: "#0569cd",
-              color: "white",
-            }}
-            fullWidth
-            variant="contained"
-          >
-            Entrar
-          </Button>
-        </CardActions>
       </Card>
     </Grid>
   );

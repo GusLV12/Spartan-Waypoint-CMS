@@ -1,9 +1,9 @@
-import { AppRoute } from "./router/router"
+import { AppRoute } from "./router/router";
 
 export const App = () => {
   return (
     <>
       <AppRoute />
     </>
-  )
-}
+  );
+};

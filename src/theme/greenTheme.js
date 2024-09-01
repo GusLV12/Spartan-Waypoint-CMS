@@ -9,7 +9,7 @@ export const greenTheme = createTheme({
       main: 'rgba(255, 255, 255, 0.1)'
     },
     secondary: {
-      main: '#72bf31'
+      main: '#0000'
     },
     error: {
       main: red.A400
