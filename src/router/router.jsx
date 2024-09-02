@@ -6,9 +6,9 @@ export const AppRoute = () => {
   return (
     <Routes>
       <Route element={<MainLayout />}>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Login />} />
       </Route>
-      <Route path="/login" element={<Login />} />
+      <Route path="/login" element={<Home />} />
     </Routes>
   );
 };

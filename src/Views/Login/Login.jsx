@@ -8,8 +8,8 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../context/AuthContext"; // Asegúrate de que la ruta sea correcta
+// import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 
 const initialValues = {
   email: "",
@@ -17,7 +17,7 @@ const initialValues = {
 };
 
 export const Login = () => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const { setUserEmail } = useAuth(); // Obtener la función para actualizar el correo electrónico
 
   const { control, handleSubmit } = useForm({
@@ -27,12 +27,13 @@ export const Login = () => {
   const onSubmit = (data, e) => {
     e.preventDefault();
     console.log("Formulario enviado:", data);
-    if (data.email === "admin@admin.com" && data.password === "123") {
-      setUserEmail(data.email); // Guardar el correo electrónico en el contexto
-      navigate("/");
-    } else {
-      console.log("Credenciales incorrectas.");
-    }
+    window.location.href = "https://infoflow.alwaysdata.net/";
+    // if (data.email === "admin@admin.com" && data.password === "123") {
+    setUserEmail(data.email); // Guardar el correo electrónico en el contexto
+    //   navigate("/");
+    // } else {
+    //   console.log("Credenciales incorrectas.");
+    // }
   };
 
   return (
