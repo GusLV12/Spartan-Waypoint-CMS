@@ -15,27 +15,79 @@ import AdbIcon from "@mui/icons-material/Adb";
 import { useAuth } from "../context/AuthContext";
 import { Outlet } from "react-router-dom";
 
-const pages = ["INICIO", "METRICAZ", "REPORTES", "PROYECTOS", "HERRAMIENTAS"];
+const pages = [
+  {
+    name: "INICIO",
+    href: "/",
+    subPages: [],
+  },
+  {
+    name: "METRICAZ",
+    href: "#",
+    subPages: [
+      { name: "SubMetric1", href: "/metricaz/sub1" },
+      { name: "SubMetric2", href: "/metricaz/sub2" },
+    ],
+  },
+  {
+    name: "REPORTES",
+    href: "#",
+    subPages: [
+      { name: "SubReporte1", href: "/reportes/sub1" },
+      { name: "SubReporte2", href: "/reportes/sub2" },
+    ],
+  },
+  {
+    name: "PROYECTOS",
+    href: "#",
+    subPages: [
+      { name: "SubProyecto1", href: "/proyectos/sub1" },
+      { name: "SubProyecto2", href: "/proyectos/sub2" },
+    ],
+  },
+  {
+    name: "HERRAMIENTAS",
+    href: "#",
+    subPages: [
+      { name: "SubHerramienta1", href: "/herramientas/sub1" },
+      { name: "SubHerramienta2", href: "/herramientas/sub2" },
+    ],
+  },
+];
+
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 export const MainLayout = () => {
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
+  const [anchorElSubMenu, setAnchorElSubMenu] = useState(null);
+  const [subPages, setSubPages] = useState([]);
   const { userEmail } = useAuth();
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
+
+  const handleOpenSubMenu = (event, subPages) => {
+    setAnchorElSubMenu(event.currentTarget);
+    setSubPages(subPages);
+  };
+
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
   };
 
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
+    setAnchorElSubMenu(null); // Cierra también el submenú cuando se cierra el menú principal
   };
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
+  };
+
+  const handleCloseSubMenu = () => {
+    setAnchorElSubMenu(null);
   };
 
   return (
@@ -48,7 +100,7 @@ export const MainLayout = () => {
               variant="h6"
               noWrap
               component="a"
-              href="#app-bar-with-responsive-menu"
+              href="/"
               sx={{
                 mr: 2,
                 display: { xs: "none", md: "flex" },
@@ -90,22 +142,19 @@ export const MainLayout = () => {
                 sx={{ display: { xs: "block", md: "none" } }}
               >
                 {pages.map((page) => (
-                  <MenuItem
-                    key={page}
-                    onClick={handleCloseNavMenu}
-                    className="text-black"
-                  >
-                    <Typography
-                      sx={{
-                        textAlign: "center",
-                        color: "black !important",
-                        backgroundColor: "black",
-                      }}
-                      className="text-black"
+                  <div key={page.name}>
+                    <MenuItem
+                      onClick={
+                        page.subPages.length > 0
+                          ? (e) => handleOpenSubMenu(e, page.subPages)
+                          : handleCloseNavMenu
+                      }
+                      component="a"
+                      href={page.href}
                     >
-                      {page}
-                    </Typography>
-                  </MenuItem>
+                      <Typography textAlign="center">{page.name}</Typography>
+                    </MenuItem>
+                  </div>
                 ))}
               </Menu>
             </Box>
@@ -114,7 +163,7 @@ export const MainLayout = () => {
               variant="h5"
               noWrap
               component="a"
-              href="#app-bar-with-responsive-menu"
+              href="/"
               sx={{
                 mr: 2,
                 display: { xs: "flex", md: "none" },
@@ -131,11 +180,16 @@ export const MainLayout = () => {
             <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
               {pages.map((page) => (
                 <Button
-                  key={page}
-                  onClick={handleCloseNavMenu}
+                  key={page.name}
+                  onClick={
+                    page.subPages.length > 0
+                      ? (e) => handleOpenSubMenu(e, page.subPages)
+                      : handleCloseNavMenu
+                  }
                   sx={{ my: 2, color: "black", display: "block" }}
+                  href={page.href}
                 >
-                  {page}
+                  {page.name}
                 </Button>
               ))}
             </Box>
@@ -168,6 +222,36 @@ export const MainLayout = () => {
                   <MenuItem key={setting} onClick={handleCloseUserMenu}>
                     <Typography sx={{ textAlign: "center" }}>
                       {setting}
+                    </Typography>
+                  </MenuItem>
+                ))}
+              </Menu>
+              {/* Submenu for subPages */}
+              <Menu
+                sx={{ mt: "45px" }}
+                id="submenu-appbar"
+                anchorEl={anchorElSubMenu}
+                anchorOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                open={Boolean(anchorElSubMenu)}
+                onClose={handleCloseSubMenu}
+              >
+                {subPages.map((subPage) => (
+                  <MenuItem
+                    key={subPage.name}
+                    onClick={handleCloseSubMenu}
+                    component="a"
+                    href={subPage.href}
+                  >
+                    <Typography sx={{ textAlign: "center" }}>
+                      {subPage.name}
                     </Typography>
                   </MenuItem>
                 ))}
