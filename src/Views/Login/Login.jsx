@@ -8,7 +8,6 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-// import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 
 const initialValues = {
@@ -17,8 +16,7 @@ const initialValues = {
 };
 
 export const Login = () => {
-  // const navigate = useNavigate();
-  const { setUserEmail } = useAuth(); // Obtener la función para actualizar el correo electrónico
+  const { setUserEmail } = useAuth(); 
 
   const { control, handleSubmit } = useForm({
     defaultValues: initialValues,
