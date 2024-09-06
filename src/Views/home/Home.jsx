@@ -8,26 +8,32 @@ export const Home = () => {
       <Grid
         container
         spacing={10}
-        sx={{ height: "90vh" }} // Asegura que el contenedor ocupe toda la altura del viewport
+        sx={{
+          height: {
+            xs: "100vh", // Ocupa el 100% del viewport en pantallas pequeñas
+            md: "90vh", // Ocupa el 90% del viewport en pantallas medianas y grandes
+          },
+        }}
       >
-        <Grid
-          container
-          item
-          xs={12}
-          rowSpacing={2} // Espaciado entre las filas internas del contenedor
-          spacing={2} // Espaciado entre los elementos internos del contenedor
-          sx={{ height: "60vh" }} // El primer Grid ocupará el 70% del viewport
-        >
+        <Grid container item xs={12} rowSpacing={2} spacing={2}>
           <Performance />
-          <Grid item xs={12} sm={8} sx={{ mb: 2 }}>
-            <div className="flex w-full h-full bg-red-800">Hola espartan</div>
+          <Grid item xs={12} md={8}>
+            <div className="flex w-auto h-full bg-red-800 md:bg-green-500 lg:bg-blue-500 xl:bg-black">
+              {/* Cambia de color según la resolución */}
+              Hola espartan
+            </div>
           </Grid>
         </Grid>
 
         <Grid
           item
           xs={12}
-          sx={{ height: "20vh" }} // Segundo Grid
+          sx={{
+            height: {
+              xs: "auto", // Ajusta la altura automáticamente en pantallas pequeñas
+              md: "20vh", // Ocupa el 20% en pantallas grandes
+            },
+          }}
         >
           <ProjectsCards />
         </Grid>
