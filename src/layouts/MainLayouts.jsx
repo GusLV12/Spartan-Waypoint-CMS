@@ -22,7 +22,7 @@ import Collapse from "@mui/material/Collapse";
 import { ExpandLess, ExpandMore } from "@mui/icons-material";
 import { useAuth } from "../context/AuthContext";
 import { Link as RouterLink, Outlet } from "react-router-dom";
-import { Link as MUILink, List, MenuItem } from "@mui/material";
+import { Link as MUILink, List, MenuItem, Grid } from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 import FormatAlignRightIcon from "@mui/icons-material/FormatAlignRight";
@@ -126,7 +126,7 @@ export const MainLayout = () => {
           display: "flex",
           justifyContent: "flex-end",
           p: 1,
-          backgroundColor: "#001937",
+          backgroundColor: "#0000",
         }}
       >
         <IconButton onClick={handleDrawerClose}>
@@ -313,7 +313,14 @@ export const MainLayout = () => {
           </Toolbar>
         </Container>
       </AppBar>
-      <Outlet />
+      <Grid
+        container
+        sx={{
+          marginTop: { xs: "82px", md: "82px" }, // Espacio acorde al AppBar
+        }}
+      >
+        <Outlet />
+      </Grid>
     </>
   );
 };

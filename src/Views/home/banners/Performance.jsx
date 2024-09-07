@@ -28,6 +28,7 @@ export const Performance = () => {
             },
             borderRadius: "16px",
             boxShadow: "0px 4px 20px rgba(0, 0, 0, 0.6)",
+            backgroundColor: "#fff", // Fondo blanco
           }}
         >
           <CardContent className="flex items-center justify-center flex-col">
@@ -82,6 +83,7 @@ export const Performance = () => {
             },
             borderRadius: "16px",
             boxShadow: "0px 4px 20px rgba(0, 0, 0, 0.6)",
+            backgroundColor: "#fff", // Fondo blanco
           }}
         >
           <CardContent className="flex items-center justify-center flex-col">
