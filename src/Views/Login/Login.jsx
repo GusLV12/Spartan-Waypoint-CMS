@@ -1,4 +1,5 @@
 import { useForm, Controller } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
 import {
   Button,
   Card,
@@ -9,6 +10,7 @@ import {
   Typography,
 } from "@mui/material";
 import { useAuth } from "../../context/AuthContext";
+import { validationSchema } from "./validation"; // Importar esquema de validación
 
 const initialValues = {
   email: "",
@@ -16,22 +18,18 @@ const initialValues = {
 };
 
 export const Login = () => {
-  const { setUserEmail } = useAuth(); 
+  const { setUserEmail } = useAuth();
 
   const { control, handleSubmit } = useForm({
     defaultValues: initialValues,
+    resolver: yupResolver(validationSchema), // Asegurarse de que Yup está resolviendo la validación
   });
 
   const onSubmit = (data, e) => {
     e.preventDefault();
     console.log("Formulario enviado:", data);
-    window.location.href = "https://infoflow.alwaysdata.net/";
-    // if (data.email === "admin@admin.com" && data.password === "123") {
+    localStorage.setItem("token", data.email); // Guardar el token en el localStorage
     setUserEmail(data.email); // Guardar el correo electrónico en el contexto
-    //   navigate("/");
-    // } else {
-    //   console.log("Credenciales incorrectas.");
-    // }
   };
 
   return (
@@ -120,7 +118,7 @@ export const Login = () => {
                 />
               </div>
             </div>
-            <CardActions>
+            <CardActions className="mt-2">
               <Button
                 type="submit"
                 style={{
