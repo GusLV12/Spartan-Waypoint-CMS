@@ -5,7 +5,7 @@ export const validationSchema = yup.object({
   email: yup
     .string()
     .required("El correo es requerido")
-    .matches(emailLoginRegex, "El correo debe ser válido y contener un @ y un ."),
+    .matches(emailLoginRegex, "El correo debe ser válido y contener un @"),
   password: yup
     .string()
     .required("La contraseña es requerida")

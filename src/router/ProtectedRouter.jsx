@@ -11,10 +11,10 @@ const ProtectedRouter = ({ children }) => {
   const isAuthenticated = useAuth();
   
   if (!isAuthenticated) {
-    return <Navigate to="/login" replace />; // Redirige al login si no está autenticado
+    return <Navigate to="/login" replace />;
   }
   
-  return children; // Si está autenticado, renderiza el componente hijo
+  return children;
 };
 
 export default ProtectedRouter;

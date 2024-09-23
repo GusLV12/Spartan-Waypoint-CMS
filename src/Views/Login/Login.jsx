@@ -20,7 +20,11 @@ const initialValues = {
 export const Login = () => {
   const { setUserEmail } = useAuth();
 
-  const { control, handleSubmit } = useForm({
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
     defaultValues: initialValues,
     resolver: yupResolver(validationSchema), // Asegurarse de que Yup está resolviendo la validación
   });
@@ -65,6 +69,7 @@ export const Login = () => {
         <CardContent>
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="grid w-full items-center gap-4">
+              {/* Campo de email */}
               <div className="flex flex-col space-y-1.5">
                 <Typography
                   component="label"
@@ -83,6 +88,13 @@ export const Login = () => {
                       label="Correo"
                       required
                       variant="filled"
+                      error={!!errors.email} // Mostrar error en el TextField
+                      helperText={errors.email ? errors.email.message : null} // Mostrar mensaje de error
+                      FormHelperTextProps={{
+                        sx: {
+                          color: "white", // Cambiar el color de texto de error a blanco
+                        },
+                      }}
                       InputProps={{
                         style: { backgroundColor: "white", color: "black" },
                       }}
@@ -91,6 +103,8 @@ export const Login = () => {
                   )}
                 />
               </div>
+
+              {/* Campo de contraseña */}
               <div className="flex flex-col space-y-1.5">
                 <Typography
                   component="label"
@@ -109,6 +123,15 @@ export const Login = () => {
                       label="Contraseña"
                       required
                       variant="filled"
+                      error={!!errors.password} // Mostrar error en el TextField
+                      helperText={
+                        errors.password ? errors.password.message : null
+                      } // Mostrar mensaje de error
+                      FormHelperTextProps={{
+                        sx: {
+                          color: "white", // Cambiar el color de texto de error a blanco
+                        },
+                      }}
                       InputProps={{
                         style: { backgroundColor: "white", color: "black" },
                       }}
