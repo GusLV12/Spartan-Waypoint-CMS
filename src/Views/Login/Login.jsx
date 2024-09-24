@@ -10,7 +10,7 @@ import {
   Typography,
 } from "@mui/material";
 import { useAuth } from "../../context/AuthContext";
-import { validationSchema } from "./validation"; // Importar esquema de validación
+import { validationSchema } from "./validation";
 
 const initialValues = {
   email: "",
@@ -26,7 +26,7 @@ export const Login = () => {
     formState: { errors },
   } = useForm({
     defaultValues: initialValues,
-    resolver: yupResolver(validationSchema), // Asegurarse de que Yup está resolviendo la validación
+    resolver: yupResolver(validationSchema),
   });
 
   const onSubmit = (data, e) => {
