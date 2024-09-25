@@ -10,7 +10,6 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
-import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
 import Avatar from "@mui/material/Avatar";
@@ -23,8 +22,6 @@ import { ExpandLess, ExpandMore } from "@mui/icons-material";
 import { useAuth } from "../context/AuthContext";
 import { Link as RouterLink, Outlet } from "react-router-dom";
 import { Link as MUILink, List, MenuItem, Grid } from "@mui/material";
-import useMediaQuery from "@mui/material/useMediaQuery";
-import { useTheme } from "@mui/material/styles";
 import FormatAlignRightIcon from "@mui/icons-material/FormatAlignRight";
 
 const pages = [
@@ -64,11 +61,11 @@ const pages = [
     name: "HERRAMIENTAS",
     href: "#",
     subPages: [
-      { name: "Mails", href: "/tools/mails" },
-      { name: "Llamadas", href: "/tools/calls" },
-      { name: "Whatsapp", href: "/tools/wp" },
+      { name: "WHATSAPP", href: "/tools/wp" },
+      { name: "LLAMADAS", href: "/tools/calls" },
       { name: "SMS", href: "/tools/sms" },
-      { name: "Código QR", href: "/tools/codeqr" },
+      { name: "MAILS", href: "/tools/mails" },
+      { name: "CODIGO QR", href: "/tools/qr" },
     ],
   },
 ];
@@ -82,8 +79,6 @@ export const MainLayout = () => {
   const [open, setOpen] = useState(false); // Estado para el Drawer
   const [collapseStates, setCollapseStates] = useState({});
   const { userEmail } = useAuth();
-  const theme = useTheme();
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down("md")); // Detectar pantalla pequeña
 
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
@@ -130,10 +125,27 @@ export const MainLayout = () => {
         }}
       >
         <IconButton onClick={handleDrawerClose}>
-          <FormatAlignRightIcon sx={{ color: "#ffff" }} />
+          <FormatAlignRightIcon sx={{ color: "#0a0a0d" }} />
+        </IconButton>
+      </Box>
+
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          p: 1,
+        }}
+      >
+        <IconButton className="flex justify-center items-center" sx={{ p: 0 }}>
+          <Avatar
+            alt="Remy Sharp"
+            src="/static/images/avatar/2.jpg"
+            sx={{ width: 56, height: 56 }}
+          />
         </IconButton>
       </Box>
       <Divider />
+
       <List>
         {pages.map((page, index) => (
           <div key={page.name}>
@@ -186,65 +198,36 @@ export const MainLayout = () => {
       <AppBar position="static">
         <Container maxWidth="2xl">
           <Toolbar disableGutters>
-            <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
-            <Typography
-              variant="h6"
-              noWrap
-              component={RouterLink}
-              to="/"
-              sx={{
-                mr: 2,
-                display: { xs: "none", md: "flex" },
-                fontFamily: "monospace",
-                fontWeight: 700,
-                letterSpacing: ".3rem",
-                color: "inherit",
-                textDecoration: "none",
-              }}
-            >
-              LOGO
-            </Typography>
-
-            {/* Menú para pantallas pequeñas */}
-            {isSmallScreen ? (
-              <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
-                {/* Botón para abrir el Drawer */}
-                <IconButton
-                  size="large"
-                  aria-label="menu"
-                  aria-controls="menu-drawer"
-                  aria-haspopup="true"
-                  onClick={handleDrawerOpen}
-                >
-                  <MenuIcon sx={{ color: "#001e41" }} />
-                </IconButton>
-
-                {/* Drawer que contiene las opciones del menú */}
-                <Drawer anchor="left" open={open} onClose={handleDrawerClose}>
-                  {DrawerList}
-                </Drawer>
-              </Box>
-            ) : (
-              // Menú para pantallas grandes
-              <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-                {pages.map((page) => (
-                  <MUILink
-                    component={RouterLink}
-                    key={page.name}
-                    underline="none"
-                    onClick={
-                      page.subPages.length > 0
-                        ? (e) => handleOpenSubMenu(e, page.subPages)
-                        : handleCloseSubMenu
-                    }
-                    sx={{ m: 1, color: "black", display: "block", gap: 3 }}
-                    to={page.href}
-                  >
-                    {page.name}
-                  </MUILink>
-                ))}
-              </Box>
-            )}
+            {/* Botón para abrir el Drawer, visible para todos los tamaños */}
+            <Box sx={{ flexGrow: 1 }} className="flex inline items-center">
+              <IconButton
+                size="large"
+                aria-label="menu"
+                aria-controls="menu-drawer"
+                aria-haspopup="true"
+                onClick={handleDrawerOpen}
+              >
+                <MenuIcon sx={{ color: "#001e41" }} />
+              </IconButton>
+              <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
+              <Typography
+                variant="h6"
+                noWrap
+                component={RouterLink}
+                to="/"
+                sx={{
+                  mr: 2,
+                  display: { xs: "none", md: "flex" },
+                  fontFamily: "monospace",
+                  fontWeight: 700,
+                  letterSpacing: ".3rem",
+                  color: "inherit",
+                  textDecoration: "none",
+                }}
+              >
+                LOGO
+              </Typography>
+            </Box>
 
             <Box sx={{ flexGrow: 0 }}>
               <Tooltip title="Open settings">
@@ -255,64 +238,16 @@ export const MainLayout = () => {
               <Typography variant="body2" color="inherit">
                 {userEmail}
               </Typography>
-              <Menu
-                sx={{ mt: "45px" }}
-                id="menu-appbar"
-                anchorEl={anchorElUser}
-                anchorOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
-                }}
-                open={Boolean(anchorElUser)}
-                onClose={handleCloseUserMenu}
-              >
-                {settings.map((setting) => (
-                  <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                    <Typography sx={{ textAlign: "center" }}>
-                      {setting}
-                    </Typography>
-                  </MenuItem>
-                ))}
-              </Menu>
-              {/* Submenú para subPages */}
-              <Menu
-                sx={{ mt: "45px" }}
-                id="submenu-appbar"
-                anchorEl={anchorElSubMenu}
-                anchorOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
-                }}
-                open={Boolean(anchorElSubMenu)}
-                onClose={handleCloseSubMenu}
-              >
-                {subPages.map((subPage) => (
-                  <MenuItem
-                    key={subPage.name}
-                    onClick={handleCloseSubMenu}
-                    component={RouterLink}
-                    to={subPage.href}
-                  >
-                    <Typography sx={{ textAlign: "center" }}>
-                      {subPage.name}
-                    </Typography>
-                  </MenuItem>
-                ))}
-              </Menu>
             </Box>
           </Toolbar>
         </Container>
       </AppBar>
+
+      {/* Drawer que contiene las opciones del menú */}
+      <Drawer anchor="left" open={open} onClose={handleDrawerClose}>
+        {DrawerList}
+      </Drawer>
+
       <Grid
         container
         sx={{
