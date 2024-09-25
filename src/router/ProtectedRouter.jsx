@@ -6,6 +6,11 @@ const useAuth = () => {
   return !!user;
 };
 
+// Función que verifica si el token es válido
+export const TokenValid = () => {
+  return localStorage.getItem("token") ? true : false;
+};
+
 // Componente que protege la ruta
 const ProtectedRouter = ({ children }) => {
   const isAuthenticated = useAuth();
